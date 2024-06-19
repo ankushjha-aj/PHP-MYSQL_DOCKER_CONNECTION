@@ -70,7 +70,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker exec ${{ env.MYSQL_CONTAINER }} mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} ${{ env.DATABASE_NAME }} < /your_database_name.sql
+            docker exec ${{ env.MYSQL_CONTAINER }} mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} ${{ env.DATABASE_NAME }} < your_database_name.sql
 
 
 # name: Deploy to GCP VM
