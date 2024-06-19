@@ -70,16 +70,6 @@ jobs:
           script: |
             docker exec mysql_db ls /registered.sql
 
-      # Debug MySQL Connection
-      - name: Debug MySQL Connection
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.GCP_VM_HOST }}
-          username: ${{ env.GCP_VM_USERNAME }}
-          key: ${{ env.GCP_VM_PRIVATE_KEY }}
-          script: |
-            docker exec mysql_db sh -c 'mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} -e "SHOW DATABASES;"'
-        
       # Debug Environment Variables
       - name: Debug Environment Variables
         uses: appleboy/ssh-action@master
