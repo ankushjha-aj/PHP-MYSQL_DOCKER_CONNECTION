@@ -62,7 +62,7 @@ jobs:
       - name: Run MySql Docker container
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.GCP_VM_HOST }}
+          host: ${{ env.GCP_VM_HOST }}  
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
