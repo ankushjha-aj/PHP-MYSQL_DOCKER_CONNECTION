@@ -91,21 +91,17 @@ jobs:
             echo "MYSQL_USER=${MYSQL_USER}"
             echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
 
-      # Run MySQL Docker container and import database
-      - name: Import Database inside MySQL Container
+      # Execute Docker mysql Connection
+      - name: Execute Docker mysql Connection
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.GCP_VM_HOST }}
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            # Wait for MySQL to start
-            until docker exec mysql_db mysqladmin ping -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} --silent; do
-              echo 'waiting for mysql...'
-              sleep 5
-            done
-            # Import database
-            docker exec -i mysql_db sh -c 'exec mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD}} registered' < /var/www/html/php-mysql-docker/app/registered.sql
+            docker exec -it mysql_db bash 
+
+
 
       # # Run Mysql Conatiner
       # - name: Run MySql Docker container
