@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           key: ${{ secrets.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker exec -it mysql_db mysql -uyour_user_name -pyour_password < /tmp/your_database_name.sql
+            docker exec -it mysql_db mysql -uyour_user_name -pyour_password < /tmp/registered.sql
             
       # Import Database Inside MYSQL Container
       - name: Run MySql Docker container
