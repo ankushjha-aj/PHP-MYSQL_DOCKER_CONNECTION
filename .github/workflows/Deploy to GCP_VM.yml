@@ -81,7 +81,7 @@ jobs:
             use your_database_name;
             SHOW TABLES;
             source your_database_name.sql
-            EOF
+            EOF 
 
             
 # name: Deploy to GCP VM
