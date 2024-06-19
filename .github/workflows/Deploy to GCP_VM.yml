@@ -60,7 +60,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db: /registered.sql
+            docker cp php_app:/var/www/html/php-mysql-docker/app/registered.sql mysql_db:/registered.sql
 
       # Verify the copied file inside MySQL container
       - name: Verify the SQL file inside MySQL container
