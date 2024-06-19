@@ -30,8 +30,8 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           key: ${{ secrets.GCP_VM_PRIVATE_KEY }}
           script: |
-            sudo cd /var/www/html/php-mysql-docker
-            sudo docker-compose up -d 
+            cd /var/www/html/php-mysql-docker
+            docker-compose up -d 
 
       # check Running containers for PHP and MySQL
       - name: check Running containers
