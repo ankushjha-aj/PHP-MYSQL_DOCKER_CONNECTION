@@ -18,7 +18,7 @@ This project provides a simple setup for running a PHP application with a MySQL 
 
 1. **Clone the Repository:**
    ```bash
-   git clone (Public repo) 
+   git clone https://github.com/ankushjha-aj/PHP-MYSQL_DOCKER_CONNECTION.git (Public repo) 
    cd php-mysql-connection 
 
 # Configuration (docker-compose.yml):
