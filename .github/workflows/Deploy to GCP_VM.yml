@@ -12,6 +12,8 @@ jobs:
       GCP_VM_HOST: ${{ secrets.GCP_VM_HOST1 }}
       GCP_VM_USERNAME: ${{ secrets.GCP_VM_USERNAME }}
       GCP_VM_PRIVATE_KEY: ${{ secrets.GCP_VM_PRIVATE_KEY }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -58,30 +60,46 @@ jobs:
           script: |
             docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/registered.sql 
             
-      # Run Mysql Conatiner
-      - name: Run MySql Docker container
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.GCP_VM_HOST }}  
-          username: ${{ env.GCP_VM_USERNAME }}
-          key: ${{ env.GCP_VM_PRIVATE_KEY }}
-          script: |
-            docker exec mysql_db mysql -uankush -pankush
-            
-      # Import Database Inside MYSQL Container
-      - name: Run MySql Docker container
+      # Run MySQL Docker container and import database
+      - name: Import Database inside MySQL Container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.GCP_VM_HOST }}
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            mysql -uyour_user_name -pyour_password << EOF
-            SHOW DATABASES;
-            use your_database_name;
-            SHOW TABLES;
-            source your_database_name.sql
-            EOF 
+            # Wait for MySQL to start
+            until docker exec mysql_db mysqladmin ping -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} --silent; do
+              echo 'waiting for mysql...'
+              sleep 5
+            done
+            # Import database
+            docker exec -i mysql_db sh -c 'exec mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD}} registered' < /registered.sql
+
+      # # Run Mysql Conatiner
+      # - name: Run MySql Docker container
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.GCP_VM_HOST }}  
+      #     username: ${{ env.GCP_VM_USERNAME }}
+      #     key: ${{ env.GCP_VM_PRIVATE_KEY }}
+      #     script: |
+      #       docker exec mysql_db mysql -uankush -pankush
+            
+      # # Import Database Inside MYSQL Container
+      # - name: Run MySql Docker container
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.GCP_VM_HOST }}
+      #     username: ${{ env.GCP_VM_USERNAME }}
+      #     key: ${{ env.GCP_VM_PRIVATE_KEY }}
+      #     script: |
+      #       mysql -uyour_user_name -pyour_password << EOF
+      #       SHOW DATABASES;
+      #       use your_database_name;
+      #       SHOW TABLES;
+      #       source your_database_name.sql
+      #       EOF 
 
             
 # name: Deploy to GCP VM
