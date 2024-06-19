@@ -70,7 +70,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker exec ${{ env.MYSQL_CONTAINER }} bash
+            docker exec ${{ env.MYSQL_CONTAINER }} bash ls /registered.sql
             
       # # Import Database Inside MYSQL Container
       # - name: Import database inside MySQL container
