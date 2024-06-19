@@ -25,7 +25,7 @@ services:
       MYSQL_HOST: mysql_db
       MYSQL_DATABASE: registered
       MYSQL_USER: ankush
-      MYSQL_PASSWORD: Ankush@2642
+      MYSQL_PASSWORD: ankush
     volumes:
       - ./app:/var/www/html
 
