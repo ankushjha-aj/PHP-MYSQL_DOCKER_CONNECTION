@@ -61,6 +61,16 @@ jobs:
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
             docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/your_database_name.sql
+
+      # Verify the copied file inside MySQL container
+      - name: Verify the SQL file inside MySQL container
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ env.GCP_VM_HOST }}
+          username: ${{ env.GCP_VM_USERNAME }}
+          key: ${{ env.GCP_VM_PRIVATE_KEY }}
+          script: |
+            docker exec ${{ env.MYSQL_CONTAINER }} ls /your_database_name.sql
             
       # Import Database Inside MYSQL Container
       - name: Import database inside MySQL container
