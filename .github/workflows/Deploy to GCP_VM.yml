@@ -89,7 +89,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker exec -it mysql_db bash 
+            docker exec mysql_db bash 
 
 
 
