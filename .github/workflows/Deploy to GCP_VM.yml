@@ -16,7 +16,6 @@ jobs:
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       DATABASE_NAME: your_database_name
-      SQL_FILE: registered.sql
 
     steps:
       - name: Checkout code
@@ -61,7 +60,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker cp /var/www/html/php-mysql-docker/app/{{ env.SQL_FILE }} ${{ env.MYSQL_CONTAINER }}:/{{ env.SQL_FILE }}
+            docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/your_database_name.sql
             
       # Import Database Inside MYSQL Container
       - name: Import database inside MySQL container
@@ -71,7 +70,7 @@ jobs:
           username: ${{ env.GCP_VM_USERNAME }}
           key: ${{ env.GCP_VM_PRIVATE_KEY }}
           script: |
-            docker exec ${{ env.MYSQL_CONTAINER }} mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} ${{ env.DATABASE_NAME }} < /${{ env.SQL_FILE }}
+            docker exec ${{ env.MYSQL_CONTAINER }} mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} ${{ env.DATABASE_NAME }} < /your_database_name.sql
 
 
 # name: Deploy to GCP VM
