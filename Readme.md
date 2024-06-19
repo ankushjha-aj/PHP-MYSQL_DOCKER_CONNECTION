@@ -18,5 +18,42 @@ This project provides a simple setup for running a PHP application with a MySQL 
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://your-repository-url.git
+   git clone (Public repo) 
    cd php-mysql-connection 
+
+# Configuration (docker-compose.yml):
+
+Open the docker-compose.yml file.
+Update the following environment variables in both the db and web services:
+MYSQL_ROOT_PASSWORD
+MYSQL_DATABASE
+MYSQL_USER
+MYSQL_PASSWORD (Use strong and unique passwords for security.)
+
+# Start the Containers:
+
+--> docker-compose up -d 
+
+# Note:
+(If you are running this on local host for example, in your windows operating system with the help of vs code for any IDE Please try to run this command with Administrator privileges for example open a terminal of Powershell or cmd with administrator privileges Visit to the path of your project repository and then run the command I will recommend to use Windows Powershell the latest version because it includes commands like ls-la, etc )
+
+# Verify the Setup:
+Open a web browser and navigate to http://localhost:8080. You should see a PHP page
+indicating that the connection to the MySQL database was successful.
+
+# Project Structure:
+docker-compose.yml: Defines the services (PHP and MySQL) and their configuration.
+app/: (Create this directory) Contains your PHP application code (index.php in this example).
+
+# Usage:
+Once the containers are running, you can:
+Access the PHP Application: Open your web browser and go to http://localhost.
+Modify the PHP Code: Make changes in the app/index.php file. The changes will be reflected automatically.
+
+# Stopping the Container:
+docker-compose down
+
+# Rebuilding the PHP Image:
+docker-compose build
+
+
