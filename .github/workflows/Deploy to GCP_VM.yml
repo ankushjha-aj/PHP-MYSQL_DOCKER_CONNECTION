@@ -43,8 +43,8 @@ jobs:
           script: |
             sudo docker ps -a            
  
-      # Run MySql Docker container and copy the Database inside the MySQL Container
-      - name: Run MySql Docker container
+      # copy the Database inside the MySQL Container
+      - name: copy the Database inside the MySQL Container
         uses: appleboy/ssh-action@master
         with:
           host: 34.125.214.162
@@ -52,7 +52,17 @@ jobs:
           key: ${{ secrets.GCP_VM_PRIVATE_KEY }}
           script: |
             docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/your_database_name.sql
+            
+      # Run Mysql Conatiner
+      - name: Run MySql Docker container
+        uses: appleboy/ssh-action@master
+        with:
+          host: 34.125.214.162
+          username: ${{ secrets.GCP_VM_USERNAME }}
+          key: ${{ secrets.GCP_VM_PRIVATE_KEY }}
+          script: |
             docker exec -it mysql_db bash
+            
 
       # Import Database Inside MYSQL Container
       - name: Run MySql Docker container
