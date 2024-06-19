@@ -51,8 +51,8 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           key: ${{ secrets.GCP_VM_PRIVATE_KEY }}
           script: |
-            sudo docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/your_database_name.sql
-            sudo docker exec -it mysql_db bash
+            docker cp /var/www/html/php-mysql-docker/app/registered.sql mysql_db:/your_database_name.sql
+            docker exec -it mysql_db bash
 
       # Import Database Inside MYSQL Container
       - name: Run MySql Docker container
