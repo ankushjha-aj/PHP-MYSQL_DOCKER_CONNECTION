@@ -4,10 +4,10 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Root@123
+      MYSQL_ROOT_PASSWORD: Root
       MYSQL_DATABASE: registered
       MYSQL_USER: ankush
-      MYSQL_PASSWORD: Ankush@2642
+      MYSQL_PASSWORD: ankush
     ports:
       - "3307:3306"
     volumes:
