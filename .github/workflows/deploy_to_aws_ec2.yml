@@ -45,8 +45,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             cd /home/${{ env.EC2_USERNAME }}/php-mysql-docker
-            docker-compose down --remove-orphans
-            docker-compose up -d
+            sudo docker-compose down --remove-orphans
+            sudo docker-compose up -d
 
       # # Check Running Containers (Simplify)
       # - name: Check Running containers
