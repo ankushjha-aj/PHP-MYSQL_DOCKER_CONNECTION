@@ -99,6 +99,19 @@ jobs:
           script: |
             echo "Current working directory: $(pwd)"
 
+      # Execute MySQL Commands (Optional)
+      - name: Execute MySQL commands
+        if: ${{ github.event.inputs.run_mysql_commands == 'true' }}  # Conditional job
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            mysql -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "SHOW DATABASES;"
+            mysql -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE registered;"
+            mysql -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "SHOW TABLES";
+  
     #  # Import Database 
     #   - name: Copy and import database
     #     uses: appleboy/ssh-action@master
