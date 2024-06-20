@@ -48,15 +48,15 @@ jobs:
             sudo docker-compose down --remove-orphans
             sudo docker-compose up -d
 
-      # # Check Running Containers (Simplify)
-      # - name: Check Running containers
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
-      #     username: ${{ env.EC2_USERNAME }}
-      #     key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-      #     script: |
-      #       docker ps -a
+      # Check Running Containers (Simplify)
+      - name: Check Running containers
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            sudo docker ps -a
 
       # # Copy and Import Database (Use Docker Exec)
       # - name: Copy and import database
