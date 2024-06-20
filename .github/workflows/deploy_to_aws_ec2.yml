@@ -112,7 +112,7 @@ jobs:
         with:
           host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
           username: ${{ env.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }} 
           script: |
             echo "Current working directory: $(pwd)"
 
