@@ -13,7 +13,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       EC2_INSTANCE_PUBLIC_DNS: ${{ secrets.EC2_INSTANCE_PUBLIC_DNS }} # e.g., ec2-xx-xxx-xx-xxx.compute-1.amazonaws.com
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }} # Typically 'ec2-user' for Amazon Linux 2 and "ubuntu" 
-      MYSQL_PASSWORD: ${{ MYSQL_ROOT_PASSWORD }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
     steps:
       - name: Checkout code
