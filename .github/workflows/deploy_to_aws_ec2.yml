@@ -8,7 +8,7 @@ on:
       run_mysql_commands:
         description: 'Run MySQL commands after entering container (true/false)'
         required: true
-        default: 'false'
+        default: 'true'
 
 jobs:
   deploy:
