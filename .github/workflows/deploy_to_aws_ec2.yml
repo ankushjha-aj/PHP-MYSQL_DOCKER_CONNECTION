@@ -1,0 +1,71 @@
+name: Deploy to AWS EC2
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      EC2_INSTANCE_PUBLIC_DNS: ${{ secrets.EC2_INSTANCE_PUBLIC_DNS }} # e.g., ec2-xx-xxx-xx-xxx.compute-1.amazonaws.com
+      EC2_USERNAME: ${{ secrets.EC2_USERNAME }} # Typically 'ec2-user' for Amazon Linux 2 and "ubuntu" 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Install AWS CLI
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: YOUR_AWS_REGION # e.g., us-east-1
+
+      # Copy Files to EC2 (Securely)
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }} # Create this secret
+          source: "."
+          target: "/home/${{ env.EC2_USERNAME }}/php-mysql-docker"
+
+      # # Run Docker Compose (Cleanup and Start)
+      # - name: Run Docker Compose
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+      #     username: ${{ env.EC2_USERNAME }}
+      #     key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      #     script: |
+      #       cd /home/${{ env.EC2_USERNAME }}/php-mysql-docker
+      #       docker-compose down --remove-orphans
+      #       docker-compose up -d
+
+      # # Check Running Containers (Simplify)
+      # - name: Check Running containers
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+      #     username: ${{ env.EC2_USERNAME }}
+      #     key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      #     script: |
+      #       docker ps -a
+
+      # # Copy and Import Database (Use Docker Exec)
+      # - name: Copy and import database
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+      #     username: ${{ env.EC2_USERNAME }}
+      #     key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+      #     script: |
+      #       docker cp /home/${{ env.EC2_USERNAME }}/php-mysql-docker/app/registered.sql mysql_db:/tmp/registered.sql
+      #       docker exec mysql_db mysql -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS your_database_name;"
+      #       docker exec mysql_db mysql -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }} your_database_name < /tmp/registered.sql
