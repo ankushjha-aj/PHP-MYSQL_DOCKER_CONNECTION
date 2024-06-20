@@ -13,6 +13,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       EC2_INSTANCE_PUBLIC_DNS: ${{ secrets.EC2_INSTANCE_PUBLIC_DNS }} # e.g., ec2-xx-xxx-xx-xxx.compute-1.amazonaws.com
       EC2_USERNAME: ${{ secrets.EC2_USERNAME }} # Typically 'ec2-user' for Amazon Linux 2 and "ubuntu" 
+      MYSQL_PASSWORD: ${{ MYSQL_ROOT_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -59,7 +60,7 @@ jobs:
             sudo docker ps -a
 
       # Copy Database 
-      - name: Copy and import database
+      - name: Copy database
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
@@ -68,7 +69,18 @@ jobs:
           script: |
             sudo docker cp /home/${{ env.EC2_USERNAME }}/php-mysql-docker/app/registered.sql mysql_db:/tmp/registered.sql
            
-      # # Copy and Import Database (Use Docker Exec)
+      # Create database inside mysql_db Contanier if not exist
+      - name: Copy and import database
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.EC2_INSTANCE_PUBLIC_DNS }}
+          username: ${{ env.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            sudo docker exec -it mysql_db mysql -uankush -p${{ MYSQL_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS registered;"
+
+
+ # # Copy and Import Database (Use Docker Exec)
       # - name: Copy and import database
       #   uses: appleboy/ssh-action@master
       #   with:
@@ -77,5 +89,5 @@ jobs:
       #     key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
       #     script: |
       #       sudo docker cp /home/${{ env.EC2_USERNAME }}/php-mysql-docker/app/registered.sql mysql_db:/tmp/registered.sql
-      #       sudo docker exec mysql_db mysql -uankush -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS your_database_name;"
-      #       sudo docker exec mysql_db mysql -uankush -p${{ secrets.MYSQL_ROOT_PASSWORD }} your_database_name < /tmp/registered.sql
+      #       sudo docker exec mysql_db mysql -uankush -p${{ MYSQL_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS your_database_name;"
+      #       sudo docker exec mysql_db mysql -uankush -p${{ MYSQL_PASSWORD }} your_database_name < /tmp/registered.sql
