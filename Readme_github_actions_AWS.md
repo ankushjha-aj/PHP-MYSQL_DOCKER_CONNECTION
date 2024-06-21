@@ -1,3 +1,7 @@
+# Spin Up EC2 With Terraform Script (For Ease) 
+Follow this Repo :
+https://github.com/ankushjha-aj/Terraform-with-aws.git 
+
 # Docker Compose Deployment with GitHub Actions
 
 This repository streamlines the deployment of your Docker Compose project onto an AWS EC2 instance using GitHub Actions. It automates the entire process, including copying files, starting containers, and (optionally) importing your SQL database.
