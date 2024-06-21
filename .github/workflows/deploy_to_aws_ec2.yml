@@ -35,7 +35,7 @@ jobs:
           username: ${{ env.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }} # Create this secret
           source: "."
-          target: "/home/${{ env.EC2_USERNAME }}/php-mysql-docker"
+          target: "/home/${{ env.EC2_USERNAME }}/php-mysql-docker" # You need to have "php-mysql-docker" Dir inside "/home/${{ env.EC2_USERNAME }}" e.g., /home/ubuntu/php-my-sql-docker
 
       # Run Docker Compose (Start)
       - name: Run Docker Compose
