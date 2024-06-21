@@ -37,7 +37,7 @@ jobs:
           source: "."
           target: "/home/${{ env.EC2_USERNAME }}/php-mysql-docker"
 
-      # Run Docker Compose (Cleanup and Start)
+      # Run Docker Compose (Start)
       - name: Run Docker Compose
         uses: appleboy/ssh-action@master
         with:
