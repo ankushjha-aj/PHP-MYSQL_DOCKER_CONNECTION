@@ -81,3 +81,6 @@ app/: (Create this directory) Contains your PHP application code (index.php in t
 Once the containers are running, you can:
 Access the PHP Application: Open your web browser and go to http://localhost.
 Modify the PHP Code: Make changes in the app/index.php file. The changes will be reflected automatically.
+
+# NOTE.4:
+--> If you had not assigned elastic ip to your instance, Every time you stop and start your AWS Instant, you need to update public dns inside Github repo secret named public dns, or whatever named you assigned to that.
