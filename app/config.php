@@ -11,6 +11,3 @@ $link = new mysqli($servername, $username, $password, $dbname);
 if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-echo "Connected successfully to host";
-
