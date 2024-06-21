@@ -202,5 +202,4 @@
 # #           key: ${{ env.GCP_VM_PRIVATE_KEY }}
 # #           script: |
 # #             docker exec ${{ env.MYSQL_CONTAINER }} mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} ${{ env.DATABASE_NAME }} < ${{ env.DATABASE_NAME }} 
-         
-         
+# sudo docker-compose down --remove-orphans      
